@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Application — Editorial Ink & Paper Edition</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 1. Welcome Page -->
+        <section id="welcome-screen" class="screen active">
+            <div class="badge">LIVE INTERNET TRIVIA • DYNAMIC QUESTIONS</div>
+            <h1>Quiz Application</h1>
+            <p class="subtitle">
+                Challenge your knowledge with live questions pulled directly from the internet on every attempt. 
+                Select a subject, answer 12 randomized multiple-choice questions, and review your complete accuracy report.
+            </p>
+            <ul class="instructions">
+                <li><strong>Live Internet Questions:</strong> Fetches 12 fresh questions from the Open Trivia Database API every time you start or restart.</li>
+                <li><strong>Scoring Rule:</strong> <span class="mono-tag">+1 Pt</span> for each correct answer, <span class="mono-tag">0 Pts</span> for wrong or skipped.</li>
+                <li><strong>Full Control:</strong> Navigate freely with Previous &amp; Next before final submission.</li>
+                <li><strong>Timed Challenge:</strong> 5-minute countdown timer with automatic submission.</li>
+            </ul>
+            <button id="start-btn" class="btn primary-btn">Start Quiz →</button>
+        </section>
+
+        <!-- 2. Category Selection Page -->
+        <section id="category-screen" class="screen">
+            <div class="badge">STEP 01 • CHOOSE DOMAIN</div>
+            <h2>Select a Category</h2>
+            <p class="subtitle">Pick a topic below to fetch 12 live randomized questions from the internet:</p>
+            <div class="category-grid" id="category-container">
+                <button class="category-card" data-category="General Knowledge">
+                    <span class="cat-icon badge-gk">🌍</span>
+                    <span class="cat-title">General Knowledge</span>
+                    <span class="cat-count">12 LIVE QUESTIONS</span>
+                </button>
+                <button class="category-card" data-category="Science">
+                    <span class="cat-icon badge-sci">🔬</span>
+                    <span class="cat-title">Science</span>
+                    <span class="cat-count">12 LIVE QUESTIONS</span>
+                </button>
+                <button class="category-card" data-category="Computer Science">
+                    <span class="cat-icon badge-cs">💻</span>
+                    <span class="cat-title">Computer Science</span>
+                    <span class="cat-count">12 LIVE QUESTIONS</span>
+                </button>
+                <button class="category-card" data-category="Mathematics">
+                    <span class="cat-icon badge-math">📐</span>
+                    <span class="cat-title">Mathematics</span>
+                    <span class="cat-count">12 LIVE QUESTIONS</span>
+                </button>
+                <button class="category-card" data-category="Sports">
+                    <span class="cat-icon badge-spt">🏆</span>
+                    <span class="cat-title">Sports</span>
+                    <span class="cat-count">12 LIVE QUESTIONS</span>
+                </button>
+            </div>
+            <div class="action-row">
+                <button id="back-to-welcome-btn" class="btn secondary-btn">← Back to Welcome</button>
+            </div>
+        </section>
+
+        <!-- 2.5. Editorial Loading Screen -->
+        <section id="loading-screen" class="screen">
+            <div class="badge">LIVE TRIVIA ENGINE</div>
+            <div class="loading-box">
+                <div class="spinner"></div>
+                <div class="loading-title">FETCHING 12 LIVE QUESTIONS FROM THE INTERNET...</div>
+                <p class="loading-sub">Connecting to Open Trivia Database API &amp; shuffling options</p>
+            </div>
+        </section>
+
+        <!-- 3. Quiz Interface Page -->
+        <section id="quiz-screen" class="screen">
+            <header class="quiz-header">
+                <div class="header-left">
+                    <span class="category-badge" id="current-category-label">Category</span>
+                    <span class="source-pill" id="source-badge">🌐 LIVE INTERNET API</span>
+                    <span class="scoring-pill">+1 Correct | 0 Wrong</span>
+                </div>
+                <div class="timer-box" id="timer-box">
+                    TIME <span id="timer-display">05:00</span>
+                </div>
+            </header>
+
+            <div class="progress-section">
+                <div class="progress-info">
+                    <span id="question-counter">QUESTION 01 OF 12</span>
+                    <span id="progress-percent">8%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <h3 id="question-text">Question text goes here?</h3>
+                <div class="options-list" id="options-container">
+                    <!-- 4 Options injected dynamically via script.js -->
+                </div>
+            </div>
+
+            <footer class="quiz-footer">
+                <button id="prev-btn" class="btn secondary-btn" disabled>← Previous</button>
+                <button id="next-btn" class="btn primary-btn">Next →</button>
+                <button id="submit-btn" class="btn primary-btn hidden">Submit Quiz ✓</button>
+            </footer>
+        </section>
+
+        <!-- 4. Result Page -->
+        <section id="result-screen" class="screen">
+            <div class="badge">ASSESSMENT COMPLETE</div>
+            <h2>Final Performance Report</h2>
+            <p class="feedback-message" id="feedback-message">Great effort!</p>
+
+            <div class="score-circle">
+                <span id="score-percentage">0%</span>
+                <small>ACCURACY</small>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-label">Total Questions</span>
+                    <span class="stat-value" id="res-total">12</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Correct (+1 Pt)</span>
+                    <span class="stat-value" id="res-correct">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Wrong (0 Pts)</span>
+                    <span class="stat-value" id="res-incorrect">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Unanswered (0)</span>
+                    <span class="stat-value" id="res-unanswered">0</span>
+                </div>
+                <div class="stat-box highlight">
+                    <span class="stat-label">Final Score</span>
+                    <span class="stat-value" id="res-score">0 / 12</span>
+                </div>
+                <div class="stat-box highlight">
+                    <span class="stat-label">Percentage</span>
+                    <span class="stat-value" id="res-percent-text">0%</span>
+                </div>
+            </div>
+
+            <!-- Answer Review Section -->
+            <div class="review-section">
+                <h3>Detailed Answer Key &amp; Point Breakdown</h3>
+                <div id="review-container" class="review-list"></div>
+            </div>
+
+            <div class="result-actions">
+                <button id="restart-btn" class="btn primary-btn">↻ Restart (New Random Questions)</button>
+                <button id="change-category-btn" class="btn secondary-btn">Switch Category</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
