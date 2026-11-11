@@ -159,7 +159,7 @@ const TIME_LIMIT = 300; // 5 minutes
 
 ## 👥 Author
 
-**Your Name** — Bosscoder School of Technology
+**Praneet Basu** — Bosscoder School of Technology
 
 ---
 
